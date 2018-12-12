@@ -1,5 +1,3 @@
-require 'flash_flow/lock/github'
-
 module FlashFlow
   module Lock
     class Error < RuntimeError; end

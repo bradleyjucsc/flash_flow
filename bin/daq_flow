@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require 'flash_flow'
+
+options = FlashFlow::Options.parse
+
+if options[:install]
+  FlashFlow::Install.install
+  exit(0)
+elsif options[:version]
+  puts "Flash flow version #{FlashFlow::VERSION}\n"
+  exit(0)
+end
+
+FlashFlow::Config.configure!(options[:config_file])
+case
+  when options[:resolve]
+    FlashFlow::Resolve.new(FlashFlow::Config.configuration.git, FlashFlow::Config.configuration.branch_info_file, logger: FlashFlow::Config.configuration.logger).start
+  when options[:resolve_manual]
+    FlashFlow::Resolve.new(FlashFlow::Config.configuration.git, FlashFlow::Config.configuration.branch_info_file, logger: FlashFlow::Config.configuration.logger).manual_instructions
+  else
+    FlashFlow::Merge::Acceptance.new(options).run
+end

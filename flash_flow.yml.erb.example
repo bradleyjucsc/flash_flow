@@ -25,40 +25,7 @@ branch_info_file: 'flash_flow.json'
 
 ### Everything below here is optional and should be deleted or remain commented out if you don't need it
 
-
-## If you use Pivotal Tracker, this integration can finish, deliver, un-deliver, and comment when
-## deployed to production if you set it up.
-## Must be used in conjuction with the "--story or --stories" options.
-## You need to run "flash_flow --review-deploy" when you deploy to your review enviroment to get the
-## deliver/un-deliver functionality.
-## You need to run "flash_flow --prod-deploy" when you deploy to production to get the "Deployed to production"
-## The timezone attribute will be set to system time zone (TZ environment variable).
-## comment when your story is deployed to prod.
-
-#issue_tracker:
-#  class:
-#    name: 'FlashFlow::IssueTracker::Pivotal'
-#    token: <%= ENV['TRACKER_TOKEN'] %>
-#    project_id: # Your Pivotal project id goes here
-#    timezone: 'US/Pacific'
-
-
-## We use this to ensure only one person at a time runs flash_flow. It checks the github issue when
-## flash_flow starts, and if it's open flash_flow exits. Otherwise it opens the issue (thus locking
-## other users out) and then closes it when flash_flow is done with its work. Using github in this way
-## is weird, and not a 100% reliable lock, but it at least prevents most possible cases of odd
-## concurrency issues.
-
-#lock:
-#  class:
-#    name: 'FlashFlow::Lock::Github'
-#    token: <%= ENV['GH_TOKEN'] %>
-#    repo: # Your github repo. For example, the flash_flow repo is 'flashfunders/flash_flow'
-#    issue_id: # Your github issue id goes here
-#    lock_label: # optional - default value is 'IS_LOCKED'
-
-
-## We use Github as our source of truth for which branches to merge. All open pull requests that don't
+## We use Bitbucket as our source of truth for which branches to merge. All open pull requests that don't
 ## have the "do not merge" label on them get merged. If you configure this flash_flow will automatically
 ## create a PR for your branch when it runs. If your branch can't merge, it will still be PR'ed, but it
 ## will have the "unmergeable" label on it (that label is strictly informational, no functionality is
@@ -66,52 +33,10 @@ branch_info_file: 'flash_flow.json'
 
 #branches:
 #  class:
-#    name: 'FlashFlow::Data::Github'
+#    name: 'FlashFlow::Data::Bitbucket'
 #    token: <%= ENV['GH_TOKEN'] %>
 #    repo: # Your github repo. For example, the flash_flow repo is 'flashfunders/flash_flow'
 #    master_branch: master
 #    unmergeable_label: unmergeable
 #    do_not_merge_label: 'do not merge'
 #    shippable_label: 'shippable'
-
-#release:
-#  class:
-#    name: 'FlashFlow::Release::PercyClient'
-#    token: <%= ENV['PERCY_TOKEN'] %>
-#    repo: # Your github repo. For example, the flash_flow repo is 'flashfunders/flash_flow'
-#    api_url: 'https://percy.io/api/v1/'
-#    compliance:
-#      max_wait_time: minutes to wait
-#      delay: minutes between checks
-#      file_prefix: 'Release_Candidate_'
-#      permissions:
-#        group:
-#          reader: comma-delimited list of emails
-#          writer: comma-delimited list of emails
-#        user:
-#          reader: comma-delimited list of emails
-#          writer: comma-delimited list of emails
-#      notify: true
-#      message: 'string for the message body. %percy_url% will be replaced with the url to the percy build'
-
-#smtp:
-#  settings:
-#    domain: 'yourdomain.com'
-#    address: <%= ENV['SMTP_HOST'] %>
-#    user_name: <%= ENV['SMTP_USERNAME'] %>
-#    password: <%= ENV['SMTP_PASSWORD'] %>
-#    port: 587
-#    authentication: 'plain'
-#    enable_starttls_auto: true
-#  emails:
-#    compliance:
-#      from: 'sender@domain.com'
-#      to: 'receiver@domain.com'
-#      cc: 'cc@domain.com'
-#      subject: 'The engineering team has a new release candidate'
-#      body_file: 'app/views/flash_flow_mailer/percy_snapshots.txt.erb'
-#    release_ready:
-#      from: 'sender@domain.com'
-#      to: 'receiver@domain.com'
-#      subject: 'Release build has been approved for release'
-#      body_file: 'path/to/email_template.erb'

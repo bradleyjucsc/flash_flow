@@ -11,27 +11,11 @@ module FlashFlow
             'master_branch' => 'master'
           },
           'branch_info_file' => 'some_file.txt',
-          'notifier' => {
-              'class' => {
-                  'name' => 'NotifierClass'
-              }
-          },
-          'issue_tracker' => {
-              'class' => {
-                  'name' => 'IssueTrackerClass'
-              }
-          },
-          'lock' => {
-              'class' => {
-                  'name' => 'LockClass'
-              }
-          },
           'branches' => {
               'class' => {
                   'name' => 'BranchClass'
               }
-          },
-          'smtp' => {}
+          }
       }
 
       reset_config!
@@ -47,9 +31,6 @@ module FlashFlow
                    'merge_branch' => 'acceptance',
                    'master_branch' => 'master'
                } == config.git)
-        assert({ 'class' => { 'name' => 'NotifierClass' }} == config.notifier)
-        assert({ 'class' => { 'name' => 'IssueTrackerClass' }} == config.issue_tracker)
-        assert({ 'class' => { 'name' => 'LockClass' }} == config.lock)
         assert({ 'class' => { 'name' => 'BranchClass' }} == config.branches)
       end
     end
@@ -69,7 +50,6 @@ module FlashFlow
         Config.configure!('unused_file_name.yml')
         assert('README.rdoc' == config.branch_info_file)
         assert_nil(config.notifier)
-        assert_nil(config.issue_tracker)
         assert_nil(config.lock)
       end
     end

@@ -3,7 +3,7 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'flash_flow/version'
 Gem::Specification.new do |spec|
-  spec.name          = "flash_flow"
+  spec.name          = "daq_flow"
   spec.version       = FlashFlow::VERSION
   spec.authors       = ["Brad Bennett"]
   spec.email         = ["bradleyjaybennett@gmail.com"]
@@ -17,14 +17,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'octokit', "~> 4.1"
   spec.add_dependency 'tb-bjb', ">= 1.6.2"
-  spec.add_dependency 'pivotal-tracker', "~> 0.5"
-  spec.add_dependency 'ruby-graphviz', "> 0"
-  spec.add_dependency 'percy-client'
-  spec.add_dependency 'mail'
-  spec.add_dependency 'prawn'
-  spec.add_dependency 'google-api-client'
 
   spec.add_development_dependency "bundler", "~> 1.6"
   spec.add_development_dependency "rake", "> 0"
